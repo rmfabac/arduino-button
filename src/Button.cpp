@@ -1,23 +1,20 @@
 #include "Button.hpp"
 
 
-//! Default duration of time (ms) to debounce pin changes.
-static constexpr int8_t DEFAULT_DEBOUNCE_DURATION = 120;
+//----------------------------------------------------------------------
+// Constants
+//----------------------------------------------------------------------
 
-//! Default time (ms) threshold to determine a long press.
-static constexpr int16_t DEFAULT_LONG_PRESS_THRESHOLD = 1000;
-
-//! Default state of the hardware pin.
-static constexpr int8_t DEFAULT_PIN_STATE = LOW;
-
-//! Invalid pin number.
-static constexpr int8_t INVALID_PIN_NUMBER = -1;
+static constexpr int8_t DEFAULT_DEBOUNCE_DURATION = 120;      // Default duration of time (ms) to debounce pin changes.
+static constexpr int16_t DEFAULT_LONG_PRESS_THRESHOLD = 1000; // Default time (ms) threshold to determine a long press.
+static constexpr int8_t DEFAULT_PIN_STATE = LOW;              // Default state of the hardware pin.
+static constexpr int8_t INVALID_PIN_NUMBER = -1;              // Invalid pin number.
 
 //----------------------------------------------------------------------
 // Public Functions
 //----------------------------------------------------------------------
 
-//! Default constructor.
+// Default constructor.
 Button::Button()
     : mDebounceDuration(DEFAULT_DEBOUNCE_DURATION)
     , mLongPressThreshold( DEFAULT_LONG_PRESS_THRESHOLD )
@@ -34,7 +31,10 @@ Button::Button()
 }
 
 // Alternate constructor.
-Button::Button(const uint8_t aPinNumber)
+Button::Button
+    (
+    const uint8_t aPinNumber // Pin number to set.
+    )
     : mDebounceDuration(DEFAULT_DEBOUNCE_DURATION)
     , mLongPressThreshold( DEFAULT_LONG_PRESS_THRESHOLD )
     , mOnLongPressedCallback(nullptr)
@@ -49,9 +49,10 @@ Button::Button(const uint8_t aPinNumber)
     begin();
 }
 
-//! Configures the assigned pin to behave as an input, also enabling
-//! the internal pull-up resistor.
-//! @note A valid pin number must be set for this function to succeed.
+// Configures the assigned pin to behave as an input, also enabling
+// the internal pull-up resistor.
+//
+// NOTE: A valid pin number must be set for this function to succeed.
 void Button::begin() const
 {
     if (mPinNumber == INVALID_PIN_NUMBER)
@@ -62,37 +63,34 @@ void Button::begin() const
     pinMode(mPinNumber, INPUT_PULLUP);
 }
 
-//! Gets the debounce duration.
-//! @return Debounce duration (ms).
+// Gets the debounce duration (ms).
 uint8_t Button::getDebounceDuration() const
 {
     return mDebounceDuration;
 }
 
-//! Gets the long press threshold.
-//! @return Long press threshold (ms).
+// Gets the long press threshold (ms).
 uint8_t Button::getLongPressThreshold() const
 {
     return mLongPressThreshold;
 }
 
-//! Gets the pin number.
-//! @return Pin number.
+// Gets the pin number.
 uint8_t Button::getPinNumber() const
 {
     return mPinNumber;
 }
 
-//! Gets the state.
-//! @return State.
+// Gets the state of this button.
 Button::State Button::getState() const
 {
     return mState;
 }
 
-//! Reads the current state of the assigned pin and sets the button
-//! state accordingly.
-//! @note Also performs debouncing.
+// Reads the current state of the assigned pin and sets the button
+// state accordingly.
+//
+// NOTE: Performs debouncing.
 void Button::read()
 {
     // Nothing to do here if the pin number is invalid.
@@ -133,80 +131,79 @@ void Button::read()
     }
 }
 
-//! Sets the debounce duration.
+// Sets the debounce duration .
 void Button::setDebounceDuration
     (
-    const uint8_t aDuration //!< Duration to set (ms).
+    const uint8_t aDuration // Duration to set (ms).
     )
 {
     mDebounceDuration = aDuration;
 }
 
-//! Sets the on long press threshold.
+// Sets the on long press threshold.
 void Button::setLongPressThreshold
     (
-    const uint8_t aThreshold //!< Threshold to set (ms).
+    const uint8_t aThreshold // Threshold to set (ms).
     )
 {
     mLongPressThreshold = aThreshold;
 }
 
-//! Sets the on long pressed callback.
+// Sets the on long pressed callback.
 void Button::setOnLongPressedCallback
     (
-    const Callback& aCallback //!< Callback to set.
+    const Callback& aCallback // Callback to set.
     )
 {
     mOnLongPressedCallback = aCallback;
 }
 
-//! Sets the on long press released callback.
+// Sets the on long press released callback.
 void Button::setOnLongPressReleasedCallback
     (
-    const Callback &aCallback //!< Callback to set.
+    const Callback &aCallback // Callback to set.
     )
 {
     mOnLongPressReleasedCallback = aCallback;
 }
 
-//! Sets the on pressed callback.
+// Sets the on pressed callback.
 void Button::setOnPressedCallback
     (
-    const Callback& aCallback //!< Callback to set.
+    const Callback& aCallback // Callback to set.
     )
 {
     mOnPressedCallback = aCallback;
 }
 
-//! Sets the on released callback.
+// Sets the on released callback.
 void Button::setOnReleasedCallback
     (
-    const Callback& aCallback //!< Callback to set.
+    const Callback& aCallback // Callback to set.
     )
 {
     mOnReleasedCallback = aCallback;
 }
 
-//! Sets the on state changed callback.
+// Sets the on state changed callback.
 void Button::setOnStateChangedCallback
     (
-    const StateChangeCallback& aCallback //!< Callback to set.
+    const StateChangeCallback& aCallback // Callback to set.
     )
 {
     mOnStateChangedCallback = aCallback;
 }
 
-//! Sets the pin number.
+// Sets the pin number.
 void Button::setPinNumber
     (
-    const uint8_t aPinNumber //!< Pin number to set.
+    const uint8_t aPinNumber // Pin number to set.
     )
 {
     mPinNumber = aPinNumber;
 }
 
-//! Compares this button to another.
-//! @return True if both buttons are the same.
+// Compares this button to another.
 bool Button::operator==
     (
     const Button &rhs //!< Button to compare.
@@ -219,7 +216,7 @@ bool Button::operator==
 // Private Functions
 //----------------------------------------------------------------------
 
-//! Notifies listeners of a button long press.
+// Notifies listeners of a button long press.
 void Button::notifyLongPressed() const
 {
     if (mOnLongPressedCallback != nullptr)
@@ -228,7 +225,7 @@ void Button::notifyLongPressed() const
     }
 }
 
-//! Notifies listeners of a button long press release.
+// Notifies listeners of a button long press release.
 void Button::notifyLongPressReleased() const
 {
     if (mOnLongPressReleasedCallback != nullptr)
@@ -237,7 +234,7 @@ void Button::notifyLongPressReleased() const
     }
 }
 
-//! Notifies listeners of a button press.
+// Notifies listeners of a button press.
 void Button::notifyPressed() const
 {
     if (mOnPressedCallback != nullptr)
@@ -246,7 +243,7 @@ void Button::notifyPressed() const
     }
 }
 
-//! Notifies listeners of a button release.
+// Notifies listeners of a button release.
 void Button::notifyReleased() const
 {
     if (mOnReleasedCallback != nullptr)
@@ -255,7 +252,7 @@ void Button::notifyReleased() const
     }
 }
 
-//! Notifies listeners of a state change.
+// Notifies listeners of a state change.
 void Button::notifyStateChange() const
 {
     if (mOnStateChangedCallback != nullptr)
@@ -264,10 +261,10 @@ void Button::notifyStateChange() const
     }
 }
 
-//! Sets the button state and notifies listeners.
+// Sets the button state and notifies listeners.
 void Button::setState
     (
-    const State aState //!< State to set.
+    const State aState // State to set.
     )
 {
     if (mState != aState)

@@ -1,8 +1,3 @@
-//------------------------------------------------------------------------------
-//! @file Button.hpp
-//!
-//! This file contains declarations for the Button class.
-//------------------------------------------------------------------------------
 #ifndef Button_hpp
 #define Button_hpp
 
@@ -22,8 +17,8 @@
 #include <stdint.h>
 
 
-//! This class abstracts hardware button handling, notifying listeners of
-//! button events (e.g. a button press).
+// This class abstracts hardware button handling, notifying listeners of
+// button events (e.g. a button press).
 class Button
 {
 public:
@@ -31,12 +26,12 @@ public:
     // Public Enumerations
     //----------------------------------------------------------------------
 
-    //! Button states.
+    // Button states.
     enum State
     {
-        StateReleased,   //!< Button released state.
-        StatePressed,    //!< Button pressed state.
-        StateLongPressed //!< Button long pressed state.
+        StateReleased,   // Button released state.
+        StatePressed,    // Button pressed state.
+        StateLongPressed // Button long pressed state.
     };
 
     //----------------------------------------------------------------------
@@ -95,15 +90,11 @@ protected:
     // Protected Variables
     //----------------------------------------------------------------------
 
-    unsigned long mLastPinStateChangeTime; //!< Time of last valid (debounced) pin state change.
-    
-    unsigned long mLastPressedStateChangeTime; //!< Time of last pressed state change.
-    
-    uint8_t mPinNumber; //!< Assigned pin number of the hardware button.
-    
-    uint8_t mPinState; //!< Current state of the hardware pin (HIGH/LOW).
-    
-    State mState; //!< Current state of the button.
+    unsigned long mLastPinStateChangeTime;     // Time of last valid (debounced) pin state change.
+    unsigned long mLastPressedStateChangeTime; // Time of last pressed state change.
+    uint8_t mPinNumber;                        // Assigned pin number of the hardware button.
+    uint8_t mPinState;                         // Current state of the hardware pin (HIGH/LOW).
+    State mState;                              // Current state of the button.
 
 private:
     //----------------------------------------------------------------------
@@ -126,21 +117,14 @@ private:
     // Private Variables
     //----------------------------------------------------------------------
 
-    uint8_t mDebounceDuration; //!< Duration of time (ms) to debounce pin changes.
-    
-    uint16_t mLongPressThreshold; //!< Time (ms) threshold to determine a long press.
-    
+    uint8_t mDebounceDuration;                   // Duration of time (ms) to debounce pin changes.
+    uint16_t mLongPressThreshold;                // Time (ms) threshold to determine a long press.
     // TODO: Implement external interrupt (ISR) handling.
-    // Callback mOnInterruptCallback; //!< Callback invoked during an external interrupt.
-   
-    Callback mOnLongPressedCallback; //!< Callback invoked during a long press event.
-    
-    Callback mOnLongPressReleasedCallback; //!< Callback invoked during a long press release event.
-    
-    Callback mOnPressedCallback; //!< Callback invoked during a press event.
-    
-    Callback mOnReleasedCallback; //!< Callback invoked during a release event.
-    
-    StateChangeCallback mOnStateChangedCallback; //!< Callback invoked during a click event.
+    // Callback mOnInterruptCallback;            // Callback invoked during an external interrupt.
+    Callback mOnLongPressedCallback;             // Callback invoked during a long press event.
+    Callback mOnLongPressReleasedCallback;       // Callback invoked during a long press release event.
+    Callback mOnPressedCallback;                 // Callback invoked during a press event.
+    Callback mOnReleasedCallback;                // Callback invoked during a release event.
+    StateChangeCallback mOnStateChangedCallback; // Callback invoked during a click event.
 };
 #endif // Button_hpp
