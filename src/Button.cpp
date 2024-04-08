@@ -110,14 +110,7 @@ void Button::read()
             mPinState = newPinState;
             mLastPinStateChangeTime = currentTime;
             
-            if (mPinState == LOW)
-            {
-                setState(StatePressed);
-            }
-            else
-            {
-                setState(StateReleased);
-            }
+            setState(mPinState == LOW ? StatePressed : StateReleased);
         }
     }
     // Check for long press event.
@@ -203,10 +196,11 @@ void Button::setPinNumber
     mPinNumber = aPinNumber;
 }
 
-// Compares this button to another.
+// Compares this button to another; returns True is both buttons are
+// the same.
 bool Button::operator==
     (
-    const Button &rhs //!< Button to compare.
+    const Button& rhs // Button to compare.
     )
 {
     return (this == &rhs);
